@@ -1,0 +1,14 @@
+target/
+database/
+!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### VSCode ###
+.vscode
