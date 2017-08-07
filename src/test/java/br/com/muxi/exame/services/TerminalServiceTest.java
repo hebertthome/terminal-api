@@ -28,9 +28,9 @@ public class TerminalServiceTest {
 	@Test
 	public void findByLogicSuccessful() {
 		Terminal input = generateTerminal(1);
-		when(repositoryMock.findOne(1)).thenReturn(input);		
+		when(repositoryMock.findOne(any(Integer.class))).thenReturn(input);		
 		
-		Terminal result = service.findByLogic(1);
+		Terminal result = service.findByLogic(any(Integer.class));
 		
 		verify(repositoryMock, times(1)).findOne(any(Integer.class));
 		assertThat(result, equalTo(input));
@@ -38,9 +38,9 @@ public class TerminalServiceTest {
 	
 	@Test
 	public void findByLogicFailed_NotFound() {
-		when(repositoryMock.findOne(1)).thenReturn(null);		
+		when(repositoryMock.findOne(any(Integer.class))).thenReturn(null);		
 		
-		Terminal result = service.findByLogic(1);
+		Terminal result = service.findByLogic(any(Integer.class));
 		
 		verify(repositoryMock, times(1)).findOne(any(Integer.class));
 		assertThat(result, equalTo(null));

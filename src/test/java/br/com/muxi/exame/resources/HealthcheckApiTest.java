@@ -20,9 +20,9 @@ public class HealthcheckApiTest {
 	}
 
 	@Test
-	public void testGetAll200() throws Exception {
-		ResultActions resultado = this.mockMvc.perform(get("/healthcheck"));
-		resultado
+	public void healthcheckSuccessful() throws Exception {
+		ResultActions result = this.mockMvc.perform(get("/healthcheck"));
+		result
 			.andExpect(status().isOk())
 			.andExpect(content().string("WORKING"));
 	}
