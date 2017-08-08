@@ -9,13 +9,13 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-public class HealthcheckApiTest {
+public class HealthcheckControllerTest {
 	
 	private MockMvc mockMvc;
 
 	@Before
 	public void setUp() {
-		HealthcheckApi api = new HealthcheckApi();
+		HealthcheckController api = new HealthcheckController();
 		mockMvc = MockMvcBuilders.standaloneSetup(api).build();
 	}
 

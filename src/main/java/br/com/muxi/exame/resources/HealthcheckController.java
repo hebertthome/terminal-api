@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class HealthcheckApi {
+public class HealthcheckController {
 	
 	@Autowired
-	public HealthcheckApi() {
+	public HealthcheckController() {
 	}
 
 	@GetMapping(path = "/healthcheck")

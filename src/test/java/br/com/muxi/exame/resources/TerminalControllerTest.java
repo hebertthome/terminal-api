@@ -14,9 +14,10 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import br.com.muxi.exame.domains.Terminal;
+import br.com.muxi.exame.resources.exposed.TerminalController;
 import br.com.muxi.exame.services.TerminalService;
 
-public class ApiTest {
+public class TerminalControllerTest {
 	
 	private TerminalService service;
 	private MockMvc mockMvc;
@@ -26,7 +27,7 @@ public class ApiTest {
 	@Before
 	public void setUp() {
 		service = mock(TerminalService.class);
-		Api api = new Api(service);
+		TerminalController api = new TerminalController(service);
 		mockMvc = MockMvcBuilders.standaloneSetup(api).build();
 	}
 
