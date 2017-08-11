@@ -1,4 +1,4 @@
-package br.com.muxi.exame.resources.exposed;
+package br.com.muxi.exame.resources.documenteded;
 
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

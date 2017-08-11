@@ -14,7 +14,7 @@ import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import br.com.muxi.exame.domains.Terminal;
-import br.com.muxi.exame.resources.exposed.TerminalController;
+import br.com.muxi.exame.resources.documenteded.TerminalController;
 import br.com.muxi.exame.services.TerminalService;
 
 public class TerminalControllerTest {
