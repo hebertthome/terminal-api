@@ -17,6 +17,11 @@ public class TerminalServiceImpl implements TerminalService {
 	public TerminalServiceImpl(TerminalRepository personRepository) {
 		this.personRepository = personRepository;
 	}
+	
+	@Override
+	public boolean exists(Integer logic) {
+		return personRepository.exists(logic);
+	}
 
 	@Override
 	public Terminal findByLogic(Integer logic) {

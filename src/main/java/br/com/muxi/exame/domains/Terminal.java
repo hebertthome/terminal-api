@@ -4,40 +4,61 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
 @Entity
 @Table(name = "terminal")
 public class Terminal {
 
 	@Id
 	@Column(name = "logic")
+	@JsonProperty("logic")
+	@NotNull
 	private Integer logic;
 
 	@Column(name = "serial")
+	@JsonProperty("serial")
+	@NotNull
 	private String serial;
 
 	@Column(name = "model")
+	@JsonProperty("model")
+	@NotNull
 	private String model;
 
 	@Column(name = "sam")
+	@JsonProperty("sam")
+	@DecimalMin("0")
 	private Integer sam;
 
 	@Column(name = "ptid")
+	@JsonProperty("ptid")
 	private String ptid;
 
 	@Column(name = "plat")
+	@JsonProperty("plat")
 	private Integer plat;
 
 	@Column(name = "version")
+	@JsonProperty("version")
+	@NotNull
 	private String version;
 
 	@Column(name = "mxr")
+	@JsonProperty("mxr")
 	private Integer mxr;
 
 	@Column(name = "mxf")
+	@JsonProperty("mxf")
 	private Integer mxf;
 
 	@Column(name = "verfm")
+	@JsonProperty("VERFM")
 	private String verfm;
 	
 	public Terminal() {

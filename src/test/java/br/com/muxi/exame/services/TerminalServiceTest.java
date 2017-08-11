@@ -10,6 +10,7 @@ import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.springframework.dao.DataIntegrityViolationException;
 
 import br.com.muxi.exame.domains.Terminal;
 import br.com.muxi.exame.repositories.TerminalRepository;
@@ -23,6 +24,16 @@ public class TerminalServiceTest {
 	public void setUp() {
 		repositoryMock = mock(TerminalRepository.class);
 		service = new TerminalServiceImpl(repositoryMock);
+	}
+	
+	@Test
+	public void existsSuccessful() {
+		when(repositoryMock.exists(any(Integer.class))).thenReturn(true);		
+		
+		boolean result = service.exists(any(Integer.class));
+		
+		verify(repositoryMock, times(1)).exists(any(Integer.class));
+		assertThat(result, equalTo(true));
 	}
 
 	@Test
@@ -55,6 +66,14 @@ public class TerminalServiceTest {
 		
 		verify(repositoryMock, times(1)).saveAndFlush(any(Terminal.class));
 		assertThat(result, equalTo(input));
+	}
+	
+	@Test(expected = DataIntegrityViolationException.class)
+	public void saveFailed_() {
+		Terminal input = generateTerminal(1);
+		when(repositoryMock.saveAndFlush(input)).thenThrow(new DataIntegrityViolationException("someone_text"));	
+		
+		service.save(input);
 	}
 	
 	private Terminal generateTerminal(Integer logic) {
