@@ -33,70 +33,67 @@ import br.com.muxi.exame.vo.errors.FailedValidationErrorsVO;
 @RequestMapping(value = "/terminal")
 @ApiVersion(1)
 public class TerminalController {
-	
-	private final TerminalService service;
-	
-	private final TerminalHLP helper;
-    
+
+    private final TerminalService service;
+
+    private final TerminalHLP helper;
+
     @Autowired
     public TerminalController(TerminalService service, TerminalHLP helper) {
-		this.service = service;
-		this.helper = helper;
-	}
-    
-    @ApiOperation(value = "Get a terminal by logic value", response = Terminal.class)
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Ok"),
-            @ApiResponse(code = 404, message = "Terminal Not Founded", response = DefaultErrorAttributes.class),
-            @ApiResponse(code = 500, message = "Internal Server Error", response = DefaultErrorAttributes.class)})
-	@GetMapping(path = "/{logic}")
-    public ResponseEntity<Object> get(@PathVariable("logic") Integer logic) {
-		Terminal result = service.findByLogic(logic);
-		if (result == null) {
-    		return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-    	}
-    	return new ResponseEntity<Object>(result, new HttpHeaders(), HttpStatus.OK);
+        this.service = service;
+        this.helper = helper;
     }
-    
+
+    @ApiOperation(value = "Get a terminal by logic value", response = Terminal.class)
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"),
+            @ApiResponse(code = 404, message = "Terminal Not Founded", response = DefaultErrorAttributes.class),
+            @ApiResponse(code = 500, message = "Internal Server Error", response = DefaultErrorAttributes.class) })
+    @GetMapping(path = "/{logic}")
+    public ResponseEntity<Object> get(@PathVariable("logic") final Integer logic) {
+        final Terminal result = service.findByLogic(logic);
+        if (result == null) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(result, new HttpHeaders(), HttpStatus.OK);
+    }
+
     @ApiOperation(value = "Insert a new Terminal")
-    @ApiResponses(value = {
-            @ApiResponse(code = 201, message = "Created"),
+    @ApiResponses(value = { @ApiResponse(code = 201, message = "Created"),
             @ApiResponse(code = 400, message = "Invalid input value", response = FailedValidationErrorsVO.class),
             @ApiResponse(code = 409, message = "Terminal already exists with logic(field) value"),
-            @ApiResponse(code = 500, message = "Internal Server Error", response = DefaultErrorAttributes.class)})
-	@PostMapping(consumes = "text/html")
+            @ApiResponse(code = 500, message = "Internal Server Error", response = DefaultErrorAttributes.class) })
+    @PostMapping(consumes = "text/html")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Object> post(@RequestBody String body) throws TerminalSchemaValidatorException {
-		Terminal terminal = helper.bindTerminal(body);
-		if (service.exists(terminal.getLogic())) {
-			return new ResponseEntity<Object>(HttpStatus.CONFLICT);
-		}
-		service.save(terminal);
-    	return new ResponseEntity<Object>(HttpStatus.CREATED);
+    @ApiVersion(2)
+    public ResponseEntity<Object> post(@RequestBody final String body) throws TerminalSchemaValidatorException {
+        final Terminal terminal = helper.bindTerminal(body);
+        if (service.exists(terminal.getLogic())) {
+            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        }
+        service.save(terminal);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
-    
+
     @ApiOperation(value = "Update a exists Terminal")
-    @ApiResponses(value = {
-            @ApiResponse(code = 200, message = "Ok"),
+    @ApiResponses(value = { @ApiResponse(code = 200, message = "Ok"),
             @ApiResponse(code = 400, message = "Bad Request", response = DefaultErrorAttributes.class),
             @ApiResponse(code = 404, message = "Terminal not founded"),
-            @ApiResponse(code = 500, message = "Internal Server Error", response = DefaultErrorAttributes.class)})
-	@PutMapping(path = "/{logic}", consumes = "application/json")
-    public ResponseEntity<Object> put(@Valid @RequestBody Terminal terminal, @PathVariable("logic") Integer logic)  {
-		if (terminal.getLogic() != null && terminal.getLogic().intValue() != logic.intValue()) {
-			throw new BadRequestException("Login value on body object is different of path value");
-		}
-		if (!service.exists(terminal.getLogic())) {
-			return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-		}
-		service.save(terminal);
-    	return new ResponseEntity<Object>(HttpStatus.OK);
+            @ApiResponse(code = 500, message = "Internal Server Error", response = DefaultErrorAttributes.class) })
+    @PutMapping(path = "/{logic}", consumes = "application/json")
+    public ResponseEntity<Object> put(@Valid @RequestBody final Terminal terminal, @PathVariable("logic") final Integer logic) {
+        if (terminal.getLogic() != null && terminal.getLogic().intValue() != logic.intValue()) {
+            throw new BadRequestException("Login value on body object is different of path value");
+        }
+        if (!service.exists(terminal.getLogic())) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        service.save(terminal);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-	
-	@ExceptionHandler(value = { TerminalSchemaValidatorException.class })
-	public ResponseEntity<Object> handleInternalServerErrorException(TerminalSchemaValidatorException e) {
-		return new ResponseEntity<Object>(e.getErrorsList(), new HttpHeaders(),
-				HttpStatus.BAD_REQUEST);
-	}
+
+    @ExceptionHandler(value = { TerminalSchemaValidatorException.class })
+    public ResponseEntity<Object> handleInternalServerErrorException(TerminalSchemaValidatorException e) {
+        return new ResponseEntity<>(e.getErrorsList(), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
 
 }

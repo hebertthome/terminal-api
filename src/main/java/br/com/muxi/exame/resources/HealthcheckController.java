@@ -9,14 +9,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class HealthcheckController {
-	
-	@Autowired
-	public HealthcheckController() {
-	}
 
-	@GetMapping(path = "/healthcheck")
-    public ResponseEntity<Object> get() {
-    	return new ResponseEntity<Object>("WORKING", new HttpHeaders(), HttpStatus.OK);
+    @Autowired
+    public HealthcheckController() {
+        super();
     }
-    
+
+    @GetMapping(path = "/healthcheck")
+    public ResponseEntity<Object> get() {
+        return new ResponseEntity<>("WORKING", new HttpHeaders(), HttpStatus.OK);
+    }
+
 }

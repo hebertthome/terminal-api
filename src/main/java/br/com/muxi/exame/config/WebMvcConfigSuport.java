@@ -8,19 +8,16 @@ import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandl
 @Configuration
 public class WebMvcConfigSuport extends WebMvcConfigurationSupport {
 
-	@Override
-	public RequestMappingHandlerMapping requestMappingHandlerMapping() {
-		return new ApiVersionRequestMappingHandlerMapping("v");
-	}
-	
-	@Override
-	public void addResourceHandlers(ResourceHandlerRegistry registry) {
-		registry.addResourceHandler("/resources/**").addResourceLocations(
-				"/resources/");
-		registry.addResourceHandler("swagger-ui.html").addResourceLocations(
-				"classpath:/META-INF/resources/");
-		registry.addResourceHandler("/webjars/**").addResourceLocations(
-				"classpath:/META-INF/resources/webjars/");
-	}
+    @Override
+    public RequestMappingHandlerMapping requestMappingHandlerMapping() {
+        return new ApiVersionRequestMappingHandlerMapping("v");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/");
+        registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
+    }
 
 }
